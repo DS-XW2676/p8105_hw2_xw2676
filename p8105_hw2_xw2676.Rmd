@@ -1,0 +1,20 @@
+---
+title: "p8105_hw2_xw2676.Rmd"
+output: github_document
+---
+
+##Problem1
+Read and clean the Mr. Trash Wheel sheet:
+```{r setup, include=FALSE}
+library(readxl)
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE)
+Mr.Trash_Wheel = read_excel("./dataset/HealthyHarborWaterWheelTotals2018-7-28.xlsx",sheet = "Mr. Trash Wheel",range = "A2:N338") %>% janitor::clean_names() %>% drop_na(dumpster) %>% mutate(sports_balls = as.integer(round(sports_balls,digits = 0)))
+```
+Read and clean precipitation data for 2017 and 2018:
+```{r}
+data_2017 = read_excel("./dataset/HealthyHarborWaterWheelTotals2018-7-28.xlsx",sheet = "2017 Precipitation",range = "A2:B14") %>% janitor::clean_names() %>% drop_na(total) %>% mutate(year = 2017)
+data_2018 = read_excel("./dataset/HealthyHarborWaterWheelTotals2018-7-28.xlsx",sheet = "2018 Precipitation",range = "A2:B14") %>% janitor::clean_names() %>% drop_na(total) %>% mutate(year = 2018)
+data_combine = bind_rows(data_2017, data_2018) %>% mutate(month=month.name[month])
+```
+
