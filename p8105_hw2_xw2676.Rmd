@@ -8,6 +8,7 @@ Read and clean the Mr. Trash Wheel sheet:
 ```{r setup, include=FALSE}
 library(readxl)
 library(tidyverse)
+library(ggridges)
 knitr::opts_chunk$set(echo = TRUE)
 Mr.Trash_Wheel = read_excel("./dataset/HealthyHarborWaterWheelTotals2018-7-28.xlsx",sheet = "Mr. Trash Wheel",range = "A2:N338") %>% janitor::clean_names() %>% drop_na(dumpster) %>% mutate(sports_balls = as.integer(round(sports_balls,digits = 0)))
 ```
@@ -84,6 +85,39 @@ join_data =
   left_join(pols_month, snp, by = "date") %>% 
   left_join(unemployment, by = "date")
 ```
+##Problem3
+Load and tidy the data. 
+```{r}
+Popular_Baby_Names = read_csv("./dataset/Popular_Baby_Names.csv") %>%
+  janitor::clean_names() %>% 
+  mutate(childs_first_name = str_to_title(childs_first_name)) %>% 
+  distinct()
+```
+Produce a well-structured, reader-friendly table showing the rank in popularity of the name “Olivia” as a female baby name over time, this should have rows for ethnicities and columns for year
+```{r}
+olivia = filter(Popular_Baby_Names, childs_first_name == "Olivia") %>%
+  select(-gender,-childs_first_name,-count) %>% 
+pivot_wider(names_from = year_of_birth,
+            values_from = rank)
+olivia
+```
+Produce a similar table showing the most popular name among male children over time.
+```{r}
+popular_male_name = filter(Popular_Baby_Names, gender == "MALE",rank == 1) %>% 
+  select(-rank, -count, -gender) %>% 
+  pivot_wider(
+  names_from = "year_of_birth",
+  values_from = c("childs_first_name"))
+popular_male_name
+```
+for male, white non-hispanic children born in 2016, produce a scatter plot showing the number of children with a name (y axis) against the rank in popularity of that name (x axis).
+```{r}
+male_white_nonhispanic_2016 = filter(Popular_Baby_Names, gender == "MALE", ethnicity == "WHITE NON HISPANIC", year_of_birth == 2016) %>% 
+ggplot( aes(x = rank, y = count)) + 
+  geom_point()
+male_white_nonhispanic_2016
+```
+
 
 
 
