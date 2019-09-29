@@ -3,8 +3,8 @@ title: "p8105_hw2_xw2676.Rmd"
 output: github_document
 ---
 
-##Problem1
-Read and clean the Mr. Trash Wheel sheet:
+## Problem1
+#### Read and clean the Mr. Trash Wheel sheet:
 ```{r setup, include=FALSE}
 library(readxl)
 library(tidyverse)
@@ -12,7 +12,7 @@ library(ggridges)
 knitr::opts_chunk$set(echo = TRUE)
 Mr.Trash_Wheel = read_excel("./dataset/HealthyHarborWaterWheelTotals2018-7-28.xlsx",sheet = "Mr. Trash Wheel",range = "A2:N338") %>% janitor::clean_names() %>% drop_na(dumpster) %>% mutate(sports_balls = as.integer(round(sports_balls,digits = 0)))
 ```
-Read and clean precipitation data for 2017 and 2018:
+#### Read and clean precipitation data for 2017 and 2018:
 ```{r}
 data_2017 = read_excel("./dataset/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
                        sheet = "2017 Precipitation",range = "A2:B14") %>%
@@ -24,9 +24,16 @@ data_2018 = read_excel("./dataset/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
   janitor::clean_names() %>% 
   drop_na(total) %>% 
   mutate(year = 2018)
-data_combine = bind_rows(data_2017, data_2018) %>%
+data_2017_2018 = bind_rows(data_2017, data_2018) %>%
   mutate(month=month.name[month])
 ```
+#### Interpretation
+There are `r nrow(Mr.Trash_Wheel)` observations,  `r ncol(Mr.Trash_Wheel)` variables in Mr.Trash_Wheel dataset, whose key variables are `r colnames(Mr.Trash_Wheel[5:14])`. 
+There are `r nrow(data_2017_2018)` observations,  `r ncol(data_2017_2018)` variables in data_2018 dataset, whose key variables are `r colnames(data_2017_2018[2])`. 
+
+The total precipitation in data_2018 was `r sum(pull(data_2018,total))`.
+The median number of sports balls in a dumpster in 2017 was `r median(pull(filter(Mr.Trash_Wheel,year == "2017"),sports_balls))`.
+
 ##Problem2
 clean the data in pols-month.csv
 ```{r}
@@ -85,6 +92,16 @@ join_data =
   left_join(pols_month, snp, by = "date") %>% 
   left_join(unemployment, by = "date")
 ```
+
+#### Interpretation
+There are `r nrow(pols_month)` observations and `r ncol(pols_month)` variables in pols_month dataset. This dataset is the monthly data of political parties of states, politicians and presidents in USA. The key variables are `r colnames(pols_month[2:8])`. 
+
+There are `r nrow(snp)` observations and `r ncol(snp)` variables in snp dataset. The key variables are `r colnames(snp[2])`. 
+
+There are `r nrow(unemployment)` observations and `r ncol(unemployment)` variables in unemployment dataset. This dataset is the monthly data of  unemployment percentage.The key variables are `r colnames(unemployment[2])`. 
+
+There are `r nrow(join_data)` observations and `r ncol(join_data)` variables in join_data. The key variables are `r colnames(join_data[2:10])`. The range of year is from `r min(pull(join_data, date))` to `r max(pull(join_data, date))`. 
+
 ##Problem3
 Load and tidy the data. 
 ```{r}
@@ -115,7 +132,7 @@ for male, white non-hispanic children born in 2016, produce a scatter plot showi
 male_white_nonhispanic_2016 = filter(Popular_Baby_Names, gender == "MALE", ethnicity == "WHITE NON HISPANIC", year_of_birth == 2016) %>% 
 ggplot( aes(x = rank, y = count)) + 
   geom_point()
-male_white_nonhispanic_2016
+ggsave("sactterplot of male_white_nonhispanic_2016.pdf")
 ```
 
 
