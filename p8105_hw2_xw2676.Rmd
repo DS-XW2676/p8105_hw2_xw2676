@@ -42,6 +42,10 @@ There are `r nrow(data_2017_2018)` observations,  `r ncol(data_2017_2018)` varia
 The total precipitation in data_2018 was `r sum(pull(data_2018,total))`.
 The median number of sports balls in a dumpster in 2017 was `r median(pull(filter(Mr.Trash_Wheel,year == "2017"),sports_balls))`.
 
+Mr. Trash Wheel dataset includes information on the dumpter number, date of collection, amount of total litter and litter type. 
+
+data_2017_2018 dataset includes monthly precipitation amounts in 2017 and 2018.
+
 ## Problem2
 #### clean the data in pols-month.csv
 ```{r}
@@ -102,11 +106,11 @@ join_data =
 ```
 
 #### Interpretation
-There are `r nrow(pols_month)` observations and `r ncol(pols_month)` variables in pols_month dataset. This dataset is the monthly data of political parties of states, politicians and presidents in USA. The key variables are `r colnames(pols_month[2:8])`. 
+There are `r nrow(pols_month)` observations and `r ncol(pols_month)` variables in pols_month dataset. This dataset is related to the number of national politicians who are democratic or republican at any given time. The key variables are `r colnames(pols_month[2:8])`. 
 
-There are `r nrow(snp)` observations and `r ncol(snp)` variables in snp dataset. The key variables are `r colnames(snp[2])`. 
+There are `r nrow(snp)` observations and `r ncol(snp)` variables in snp dataset. The key variables are `r colnames(snp[2])`. This dataset is related to Standard & Poor’s stock market index (S&P), often used as a representative measure of stock market as a whole
 
-There are `r nrow(unemployment)` observations and `r ncol(unemployment)` variables in unemployment dataset. This dataset is the monthly data of  unemployment percentage.The key variables are `r colnames(unemployment[2])`. 
+There are `r nrow(unemployment)` observations and `r ncol(unemployment)` variables in unemployment dataset. This dataset is the monthly data of  unemployment percentage between 1948 and 1959.The key variables are `r colnames(unemployment[2])`. 
 
 There are `r nrow(join_data)` observations and `r ncol(join_data)` variables in join_data. The key variables are `r colnames(join_data[2:10])`. The range of year is from `r min(pull(join_data, date))` to `r max(pull(join_data, date))`. 
 
