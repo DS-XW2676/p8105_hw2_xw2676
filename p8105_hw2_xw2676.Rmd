@@ -123,7 +123,7 @@ Popular_Baby_Names = read_csv("./dataset/Popular_Baby_Names.csv") %>%
   distinct() %>% 
   mutate(
     ethnicity = recode(ethnicity, "ASIAN AND PACI" = "ASIAN AND PACIFIC ISLANDER",
-                       "BLACK NON HISP" = "BALCK NON HISPANIC",
+                       "BLACK NON HISP" = "BLACK NON HISPANIC",
                        "WHITE NON HISP" = "WHITE NON HISPANIC")
   )
 ```
