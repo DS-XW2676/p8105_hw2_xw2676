@@ -12,9 +12,9 @@ library(ggridges)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 ```{r}
-Mr.Trash_Wheel = read_excel("./dataset/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
+Mr.Trash_Wheel = read_excel("./dataset/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
                             sheet = "Mr. Trash Wheel",
-                            range = "A2:N338") %>% 
+                            range = "A2:N408") %>% 
   janitor::clean_names() %>% 
   drop_na(dumpster) %>%
   mutate(sports_balls = as.integer(round(sports_balls,digits = 0)))
@@ -22,12 +22,12 @@ Mr.Trash_Wheel = read_excel("./dataset/HealthyHarborWaterWheelTotals2018-7-28.xl
 
 #### Read and clean precipitation data for 2017 and 2018:
 ```{r}
-data_2017 = read_excel("./dataset/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
+data_2017 = read_excel("./dataset/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
                        sheet = "2017 Precipitation",range = "A2:B14") %>%
   janitor::clean_names() %>% 
   drop_na(total) %>% 
   mutate(year = 2017)
-data_2018 = read_excel("./dataset/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
+data_2018 = read_excel("./dataset/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
                        sheet = "2018 Precipitation",range = "A2:B14") %>%
   janitor::clean_names() %>% 
   drop_na(total) %>% 
@@ -37,6 +37,7 @@ data_2017_2018 = bind_rows(data_2017, data_2018) %>%
 ```
 #### Interpretation
 There are `r nrow(Mr.Trash_Wheel)` observations,  `r ncol(Mr.Trash_Wheel)` variables in Mr.Trash_Wheel dataset, whose key variables are `r colnames(Mr.Trash_Wheel[5:14])`. 
+
 There are `r nrow(data_2017_2018)` observations,  `r ncol(data_2017_2018)` variables in data_2018 dataset, whose key variables are `r colnames(data_2017_2018[2])`. 
 
 The total precipitation in data_2018 was `r sum(pull(data_2018,total))`.
